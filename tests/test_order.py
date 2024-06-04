@@ -31,7 +31,7 @@ class TestOrder:
         assert response.status_code == expected_status
         response_json = response.json()
         assert "track" in response_json
-        print(f"Order created with track: {response_json['track']}")
+
 
     @allure.title('проверка, что в тело ответа возвращается список заказов')
     def test_get_orders(self):
@@ -41,6 +41,6 @@ class TestOrder:
         orders = response_json["orders"]
         assert isinstance(orders, list)
         assert len(orders) > 0
-        print(f"Number of orders: {len(orders)}")
+
 
 
