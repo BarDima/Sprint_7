@@ -2,6 +2,7 @@ import allure
 import requests
 import random
 import string
+from config import URL_COURIER, URL_AUTHORIZATION
 
 
 @allure.step('Генерируем строку, состоящую только из букв нижнего регистра, в качестве параметра передаём длину строки')
@@ -26,7 +27,7 @@ def register_new_courier_and_return_login_password():
     }
 
     # отправляем запрос на регистрацию курьера и сохраняем ответ в переменную response
-    response = requests.post('https://qa-scooter.praktikum-services.ru/api/v1/courier', data=payload)
+    response = requests.post(URL_COURIER, data=payload)
     # если регистрация прошла успешно (код ответа 201), добавляем в список логин и пароль курьера
     if response.status_code == 201:
         login_pass.append(login)
@@ -42,7 +43,7 @@ def login_and_get_courier_id(login, password):
         "login": login,
         "password": password
     }
-    response = requests.post('https://qa-scooter.praktikum-services.ru/api/v1/courier/login', json=payload)
+    response = requests.post(URL_AUTHORIZATION, json=payload)
     if response.status_code == 200:
         return response.json().get('id')
     return None
