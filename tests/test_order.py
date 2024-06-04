@@ -1,10 +1,8 @@
 import allure
 import pytest
 import requests
+from config import URL_ORDERS, URL_GET_ORDERS
 
-
-url_get_orders = "https://qa-scooter.praktikum-services.ru/api/v1/orders?limit=10&page=0"
-url = "https://qa-scooter.praktikum-services.ru/api/v1/orders"
 
 test_data = [
     ({"color": ["BLACK"]}, 201),
@@ -27,7 +25,7 @@ class TestOrder:
             "comment": "don't call the intercom"
         }
         order_data.update(color_payload)
-        response = requests.post(url, json=order_data)
+        response = requests.post(URL_ORDERS, json=order_data)
         assert response.status_code == expected_status
         response_json = response.json()
         assert "track" in response_json
@@ -35,7 +33,7 @@ class TestOrder:
 
     @allure.title('проверка, что в тело ответа возвращается список заказов')
     def test_get_orders(self):
-        response = requests.get(url_get_orders)
+        response = requests.get(URL_GET_ORDERS)
         response_json = response.json()
         assert "orders" in response_json
         orders = response_json["orders"]

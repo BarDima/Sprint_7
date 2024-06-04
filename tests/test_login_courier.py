@@ -3,9 +3,10 @@ import requests
 from helpers import register_new_courier_and_return_login_password
 from helpers import login_and_get_courier_id
 from helpers import delete_courier
+from config import URL_AUTHORIZATION
 
-url = "https://qa-scooter.praktikum-services.ru/api/v1/courier"
-url_autorization = 'https://qa-scooter.praktikum-services.ru/api/v1/courier/login'
+
+
 class TestLoginCourier:
 
     @allure.title('Проверка возможности авторизации курьера')
@@ -24,7 +25,7 @@ class TestLoginCourier:
                 "login": data[0],
                 "password": "invalidpassword"
             }
-        response = requests.post(url_autorization, json=payload)
+        response = requests.post(URL_AUTHORIZATION, json=payload)
         assert response.status_code == 404
         response_json = response.json()
         assert response_json.get("message") == "Учетная запись не найдена"
@@ -38,7 +39,7 @@ class TestLoginCourier:
                 "login": "invalidlogin",
                 "password": data[1]
             }
-        response = requests.post(url_autorization, json=payload)
+        response = requests.post(URL_AUTHORIZATION, json=payload)
         assert response.status_code == 404
         response_json = response.json()
         assert response_json.get("message") == "Учетная запись не найдена"
@@ -52,7 +53,7 @@ class TestLoginCourier:
                 "login": data[0],
                 "password": ''
             }
-        response = requests.post(url_autorization, json=payload)
+        response = requests.post(URL_AUTHORIZATION, json=payload)
         assert response.status_code == 400
         response_json = response.json()
         assert response_json.get("message") == "Недостаточно данных для входа"
@@ -66,7 +67,7 @@ class TestLoginCourier:
                 "login": '',
                 "password": data[1]
             }
-        response = requests.post(url_autorization, json=payload)
+        response = requests.post(URL_AUTHORIZATION, json=payload)
         assert response.status_code == 400
         response_json = response.json()
         assert response_json.get("message") == "Недостаточно данных для входа"
@@ -80,7 +81,7 @@ class TestLoginCourier:
                 "login": "invalidlogin",
                 "password": "invalidpassword"
             }
-        response = requests.post(url_autorization, json=payload)
+        response = requests.post(URL_AUTHORIZATION, json=payload)
         assert response.status_code == 404
         response_json = response.json()
         assert response_json.get("message") == "Учетная запись не найдена"
