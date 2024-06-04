@@ -52,6 +52,20 @@ def delete_courier(courier_id):
     response = requests.delete(f'https://qa-scooter.praktikum-services.ru/api/v1/courier/{courier_id}')
     return response.status_code
 
+@allure.step('Генерирум создание логина, пароля и имени курьера')
+def generate_login_password_first_name():
+    # генерируем логин, пароль и имя курьера
+    login = generate_random_string(10)
+    password = generate_random_string(10)
+    first_name = generate_random_string(10)
+    # собираем тело запроса
+    payload = {
+        "login": login,
+        "password": password,
+        "firstName": first_name
+    }
+
+    return payload
 
 
 

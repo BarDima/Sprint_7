@@ -1,7 +1,6 @@
 import allure
 import requests
 from helpers import register_new_courier_and_return_login_password
-from helpers import generate_password_first_name
 from helpers import generate_login_password_first_name
 from helpers import login_and_get_courier_id
 from helpers import delete_courier
@@ -33,7 +32,8 @@ class TestCourier:
 
     @allure.title('Проверка невозможности создания курьера без передачи поля логин')
     def test_create_courier_without_login_error(self):
-        data = generate_password_first_name()
+        data = generate_login_password_first_name()
+        data.pop('login')
         response = requests.post(url, json=data)
         assert response.status_code == 400
         assert "Недостаточно данных для создания учетной записи" in response.json().get("message")
